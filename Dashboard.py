@@ -1,5 +1,5 @@
 import streamlit as st
-from pages.utils import navbar
+from utils import navbar  # Changed from pages.utils to utils
 import pandas as pd
 import os
 import gdown

@@ -17,15 +17,13 @@ def navbar():
     col1, col2 = st.columns([1, 4])
     
     with col1:
-        # Load logo using absolute path, going up one level to find assets
+        # Load logo using absolute path from the current directory
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        parent_dir = os.path.dirname(current_dir)
-        logo_path = os.path.join(parent_dir, 'assets', 'logo.png')
+        logo_path = os.path.join(current_dir, 'assets', 'logo.png')
         try:
             st.image(logo_path, width=140)
         except Exception as e:
-            st.error(f"Unable to load logo: {str(e)}")
-    
+            st.error(f"Unable to load logo: {str(e)}")    
     with col2:
         st.markdown(
             """
