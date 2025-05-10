@@ -12,22 +12,9 @@ def load_data():
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
 
-    # Google Drive file IDs for your Excel files
-    employee_file_id = '1a_Ur5uP3X8sDCrW3nEP-3ycNvcbCwjKW'  # Replace with your file ID
-    target_file_id = '1qq6Vg2jak-eKiqJS-T6O7uiffF4dzInz'      # Replace with your file ID
-
     # Local file paths
     employee_excel = os.path.join(data_dir, "employee_data.xlsx")
     target_excel = os.path.join(data_dir, "target_data.xlsx")
-
-    # Download files if they don't exist
-    if not os.path.exists(employee_excel):
-        employee_url = f'https://drive.google.com/uc?id={employee_file_id}'
-        gdown.download(employee_url, employee_excel, quiet=False)
-
-    if not os.path.exists(target_excel):
-        target_url = f'https://drive.google.com/uc?id={target_file_id}'
-        gdown.download(target_url, target_excel, quiet=False)
 
     # Read Excel files
     try:
@@ -37,19 +24,17 @@ def load_data():
         # Convert date columns
         date_columns = ['agent_join_month', 'first_policy_sold_month', 'year_month']
         for col in date_columns:
-            if col in employee_df.columns:
-                employee_df[col] = pd.to_datetime(employee_df[col])
+            employee_df[col] = pd.to_datetime(employee_df[col], errors='coerce') # Added errors='coerce'
+            if col in target_df.columns: # Added check if col exists
+                target_df[col] = pd.to_datetime(target_df[col], errors='coerce') # Added errors='coerce'
 
-        return employee_df, target_df
+        return employee_df, target_df # Added return statement
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
-        return None, None
+        return None, None # Added return statement
 
 st.set_page_config(page_title="ABC Company Dashboard", layout="wide")
 navbar()
-
-# Center the main title
-st.markdown("<h1 style='text-align: center;'>ABC Company</h1>", unsafe_allow_html=True)
 
 # Load data
 employee_df, target_df = load_data()
@@ -143,12 +128,12 @@ if employee_df is not None and target_df is not None:
     
     with chart_col:
         # Modern Pie Chart with updated styling
-        fig, ax = plt.subplots(figsize=(4, 4))
+        fig, ax = plt.subplots(figsize=(2,2))
         fig.patch.set_alpha(0.0)
         ax.patch.set_alpha(0.0)
         
         # Modern color palette
-        colors = ['#00BFB3', '#FFC857', '#E63946']
+        colors = ['#009ACD', '#ADD8E6', '#63D1F4', '#0EBFE9']
         sizes = [high_performers, medium_performers, low_performers]
         
         # Create pie chart with modern styling

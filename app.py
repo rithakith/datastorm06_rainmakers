@@ -18,22 +18,9 @@ def load_data():
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
 
-    # Google Drive file IDs for your Excel files
-    employee_file_id = '1a_Ur5uP3X8sDCrW3nEP-3ycNvcbCwjKW'  # Replace with your file ID
-    target_file_id = '1qq6Vg2jak-eKiqJS-T6O7uiffF4dzInz'      # Replace with your file ID
-
     # Local file paths
     employee_excel = os.path.join(data_dir, "employee_data.xlsx")
     target_excel = os.path.join(data_dir, "target_data.xlsx")
-
-    # Download files if they don't exist
-    if not os.path.exists(employee_excel):
-        employee_url = f'https://drive.google.com/uc?id={employee_file_id}'
-        gdown.download(employee_url, employee_excel, quiet=False)
-
-    if not os.path.exists(target_excel):
-        target_url = f'https://drive.google.com/uc?id={target_file_id}'
-        gdown.download(target_url, target_excel, quiet=False)
 
     # Read Excel files
     try:
@@ -43,9 +30,9 @@ def load_data():
         # Convert date columns
         date_columns = ['agent_join_month', 'first_policy_sold_month', 'year_month']
         for col in date_columns:
-            if col in employee_df.columns:
-                employee_df[col] = pd.to_datetime(employee_df[col])
-
+            employee_df[col] = pd.to_datetime(employee_df[col], errors='coerce')
+            if col in target_df.columns:
+                target_df[col] = pd.to_datetime(target_df[col], errors='coerce')
         return employee_df, target_df
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
