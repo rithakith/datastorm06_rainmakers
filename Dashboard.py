@@ -6,6 +6,7 @@ import gdown
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+@st.cache_data
 def load_data():
     # Create a data directory if it doesn't exist
     data_dir = "data"

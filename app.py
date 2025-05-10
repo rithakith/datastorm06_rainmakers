@@ -11,6 +11,7 @@ import os
 warnings.filterwarnings("ignore")
 sns.set_style("whitegrid")
 
+@st.cache_data
 # --- Load Data ---
 def load_data():
     # Create a data directory if it doesn't exist
@@ -38,6 +39,7 @@ def load_data():
         st.error(f"Error loading data: {str(e)}")
         return None, None
 
+@st.cache_data
 def display_agent_info(df, agent_code):
     agent_data = df[df['agent_code'] == agent_code]
     if agent_data.empty:
@@ -80,9 +82,7 @@ def plot_new_policy_count(agent_code, df):
 
     return fig, (min_count, max_count)
 
-
-
-
+@st.cache_data
 def classify_agent_performance(df, agent_code):
     """Classifies agent performance as High or not based on multiple KPIs."""
     agent_data_all = df[df['agent_code'] == agent_code]
