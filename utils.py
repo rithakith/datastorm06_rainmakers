@@ -41,7 +41,7 @@ def navbar():
                     gap: 2rem;
                     font-size: 16px;
                 ">
-                    <a href="/" style="
+                    <a href="/" target="_self" style="
                         text-decoration: none;
                         color: white;
                         display: flex;
@@ -49,7 +49,7 @@ def navbar():
                         transition: opacity 0.2s;
                         font-weight: 500;
                     ">Dashboard</a>
-                    <a href="/Nill_Agents" style="
+                    <a href="/Nill_Agents" target="_self" style="
                         text-decoration: none;
                         color: white;
                         display: flex;
@@ -57,7 +57,7 @@ def navbar():
                         transition: opacity 0.2s;
                         font-weight: 500;
                     ">Nill Agents</a>
-                    <a href="/Agents" style="
+                    <a href="/Agents" target="_self" style="
                         text-decoration: none;
                         color: white;
                         display: flex;
