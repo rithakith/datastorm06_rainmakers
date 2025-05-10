@@ -37,7 +37,7 @@ if employee_df is not None and target_df is not None:
         employee_codes = sorted(list(common_codes))
 
     # Only show the select box for employees
-    selected_code = st.selectbox("Select Employee", employee_codes)
+    selected_code = st.selectbox("Select Agent", employee_codes)
     
     if selected_code:
         agent_data = employee_df[employee_df['agent_code'] == selected_code].iloc[0]
@@ -91,7 +91,7 @@ if employee_df is not None and target_df is not None:
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            st.markdown("**Employee Code:**")
+            st.markdown("**Agent Code:**")
             st.write(selected_code)
 
             st.markdown("**Age:**")

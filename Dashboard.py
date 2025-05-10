@@ -77,14 +77,14 @@ if employee_df is not None and target_df is not None:
         left_spacer, col1, middle_spacer, col2, right_spacer = st.columns([1, 1.2, 0.2, 1.2, 1])
         with col1:
             total_employees = len(employee_df['agent_code'].unique())
-            st.metric("Employee Count", str(total_employees))
+            st.metric("Agent Count", str(total_employees))
         with col2:
             # Calculate new employees (joined in the last 30 days)
             today = pd.Timestamp.now()
             new_employees = len(employee_df[
                 (employee_df['agent_join_month'] > (today - pd.Timedelta(days=30)))
             ]['agent_code'].unique())
-            st.metric("New Employees",9)
+            st.metric("New Agents",9)
 
     # Productivity Trends section
     st.markdown("<h2 style='text-align: center; margin-top: 2rem;'>Productivity Trends</h2>", unsafe_allow_html=True)
@@ -125,7 +125,7 @@ if employee_df is not None and target_df is not None:
         st.pyplot(fig2)
 
     # Employee Classification section
-    st.markdown("<h2 style='text-align: center; margin-top: 2rem;'>Employee Classification</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; margin-top: 2rem;'>Agent Classification</h2>", unsafe_allow_html=True)
     
     # Calculate average policy count per agent
     avg_policies = employee_df.groupby('agent_code')['new_policy_count'].mean()

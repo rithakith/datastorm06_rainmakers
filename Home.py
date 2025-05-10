@@ -27,7 +27,7 @@ st.markdown("""
 st.markdown("<div style='display: flex; justify-content: space-around;'>", unsafe_allow_html=True)
 col1, col2 = st.columns([1, 1])
 with col1:
-    st.metric("Employee Count", "150")
+    st.metric("Agent Count", "150")
 with col2:
     st.metric("New Employees", "5")
 st.markdown("</div></div></div>", unsafe_allow_html=True)
@@ -41,7 +41,7 @@ with right:
     st.markdown("<div style='text-align: center;'>⬜️ **[TODO] Add Graph 2 Here**</div>", unsafe_allow_html=True)
 
 # Replace style1 with centered subtitle
-st.markdown("<h2 style='text-align: center; margin-top: 2rem;'>Employee Classification</h2>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; margin-top: 2rem;'>Agent Classification</h2>", unsafe_allow_html=True)
 st.markdown("<div style='text-align: center;'>⬜️ **[TODO] Add Pie Chart (High/Medium/Low)**</div>", unsafe_allow_html=True)
 st.markdown("<div style='text-align: center;'>[More ➕](pages/3_Employees.py)</div>", unsafe_allow_html=True)
 

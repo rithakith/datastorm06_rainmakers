@@ -64,7 +64,7 @@ def navbar():
                         align-items: center;
                         transition: opacity 0.2s;
                         font-weight: 500;
-                    ">Employees</a>
+                    ">Agents</a>
                 </div>
             </nav>
             """,

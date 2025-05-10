@@ -49,7 +49,7 @@ if employee_df is not None and target_df is not None:
             # Create two columns for agent information
             left_col, right_col = st.columns(2)
             with left_col:
-                st.markdown("**Employee Code:**")
+                st.markdown("**Agent Code:**")
                 st.write(selected_agent)
                 
                 st.markdown("**Age:**")
