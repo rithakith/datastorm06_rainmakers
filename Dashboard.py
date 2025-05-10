@@ -53,6 +53,15 @@ if employee_df is not None and target_df is not None and agent_perf_df is not No
                 border-radius: 8px;
                 padding: 1rem 1.5rem;
             }
+            .custom-metric-label {
+                font-size: 20px !important; /* Increased font size for label */
+                color: rgba(255, 255, 255, 0.7) !important; /* Adjusted color for label */
+            }
+            .custom-metric-value {
+                font-size: 36px !important; /* Increased font size for value */
+                font-weight: bold !important;
+                color: white !important; /* Adjusted color for value */
+            }
         </style>
     """, unsafe_allow_html=True)
 
@@ -66,14 +75,20 @@ if employee_df is not None and target_df is not None and agent_perf_df is not No
         left_spacer, col1, middle_spacer, col2, right_spacer = st.columns([1, 1.2, 0.2, 1.2, 1])
         with col1:
             total_employees = len(employee_df['agent_code'].unique())
-            st.metric("Agent Count", str(total_employees))
+            st.markdown(f"""
+                <div class="custom-metric-label">Agent Count</div>
+                <div class="custom-metric-value">{total_employees}</div>
+            """, unsafe_allow_html=True)
         with col2:
             # Calculate new employees (joined in the last 30 days)
             today = pd.Timestamp.now()
             new_employees = len(employee_df[
                 (employee_df['agent_join_month'] > (today - pd.Timedelta(days=30)))
             ]['agent_code'].unique())
-            st.metric("New Agents",9)
+            st.markdown(f"""
+                <div class="custom-metric-label">New Agents</div>
+                <div class="custom-metric-value">{new_employees}</div>
+            """, unsafe_allow_html=True)
 
     # Productivity Trends section
     st.markdown("<h2 style='text-align: center; margin-top: 2rem;'>Productivity Trends</h2>", unsafe_allow_html=True)
