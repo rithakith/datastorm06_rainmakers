@@ -49,7 +49,7 @@ def navbar():
                         transition: opacity 0.2s;
                         font-weight: 500;
                     ">Dashboard</a>
-                    <a href="/2_Nill_Agents" style="
+                    <a href="/Nill_Agents" style="
                         text-decoration: none;
                         color: white;
                         display: flex;
@@ -57,7 +57,7 @@ def navbar():
                         transition: opacity 0.2s;
                         font-weight: 500;
                     ">Nill Agents</a>
-                    <a href="/3_Employees" style="
+                    <a href="/Agents" style="
                         text-decoration: none;
                         color: white;
                         display: flex;
