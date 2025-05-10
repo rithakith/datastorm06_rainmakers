@@ -12,38 +12,29 @@ def load_data():
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
 
-    # Google Drive file IDs for your Excel files
-    employee_file_id = '1a_Ur5uP3X8sDCrW3nEP-3ycNvcbCwjKW'  # Replace with your file ID
-    target_file_id = '1qq6Vg2jak-eKiqJS-T6O7uiffF4dzInz'      # Replace with your file ID
-
     # Local file paths
     employee_excel = os.path.join(data_dir, "employee_data.xlsx")
     target_excel = os.path.join(data_dir, "target_data.xlsx")
+    agent_perf_csv = os.path.join(data_dir, "agent_perf.csv") # Added agent_perf.csv path
 
-    # Download files if they don't exist
-    if not os.path.exists(employee_excel):
-        employee_url = f'https://drive.google.com/uc?id={employee_file_id}'
-        gdown.download(employee_url, employee_excel, quiet=False)
-
-    if not os.path.exists(target_excel):
-        target_url = f'https://drive.google.com/uc?id={target_file_id}'
-        gdown.download(target_url, target_excel, quiet=False)
-
-    # Read Excel files
+    # Read Excel files and CSV file
     try:
         employee_df = pd.read_excel(employee_excel)
         target_df = pd.read_excel(target_excel)
+        agent_perf_df = pd.read_csv(agent_perf_csv) # Load agent_perf.csv
 
         # Convert date columns
         date_columns = ['agent_join_month', 'first_policy_sold_month', 'year_month']
         for col in date_columns:
-            if col in employee_df.columns:
-                employee_df[col] = pd.to_datetime(employee_df[col])
+            if col in employee_df.columns: # Check if col exists in employee_df
+                employee_df[col] = pd.to_datetime(employee_df[col], errors='coerce')
+            if col in target_df.columns: # Added check if col exists
+                target_df[col] = pd.to_datetime(target_df[col], errors='coerce') # Added errors='coerce'
 
-        return employee_df, target_df
+        return employee_df, target_df, agent_perf_df # Added agent_perf_df to return
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
-        return None, None
+        return None, None, None # Added None for agent_perf_df
 
 st.set_page_config(page_title="ABC Company Dashboard", layout="wide")
 navbar()
@@ -52,9 +43,9 @@ navbar()
 st.markdown("<h1 style='text-align: center;'>ABC Company</h1>", unsafe_allow_html=True)
 
 # Load data
-employee_df, target_df = load_data()
+employee_df, target_df, agent_perf_df = load_data() # Unpack agent_perf_df
 
-if employee_df is not None and target_df is not None:
+if employee_df is not None and target_df is not None and agent_perf_df is not None: # Check agent_perf_df
     # Custom CSS for metrics container
     st.markdown("""
         <style>
@@ -127,13 +118,17 @@ if employee_df is not None and target_df is not None:
     # Employee Classification section
     st.markdown("<h2 style='text-align: center; margin-top: 2rem;'>Employee Classification</h2>", unsafe_allow_html=True)
     
-    # Calculate average policy count per agent
-    avg_policies = employee_df.groupby('agent_code')['new_policy_count'].mean()
-    
-    # Classify agents
-    high_performers = len(avg_policies[avg_policies > 20])
-    medium_performers = len(avg_policies[(avg_policies <= 20) & (avg_policies > 10)])
-    low_performers = len(avg_policies[avg_policies <= 10])
+    # Classify agents based on performance_group from agent_perf.csv
+    if 'performance_group' in agent_perf_df.columns:
+        performance_counts = agent_perf_df['performance_group'].value_counts()
+        high_performers = performance_counts.get('High', 0)
+        medium_performers = performance_counts.get('Mid', 0)
+        low_performers = performance_counts.get('Low', 0)
+    else:
+        st.warning("Column 'performance_group' not found in agent_perf.csv. Displaying zeros.")
+        high_performers = 0
+        medium_performers = 0
+        low_performers = 0
 
     # Add spacing before the chart section
     st.markdown("<div style='height: 2rem;'></div>", unsafe_allow_html=True)
@@ -147,9 +142,10 @@ if employee_df is not None and target_df is not None:
         fig.patch.set_alpha(0.0)
         ax.patch.set_alpha(0.0)
         
-        # Updated color palette
-        colors = ['#4CAF50', '#FFC107', '#F44336'] # Green, Amber, Red
+        # Updated color palette for better visibility
+        colors = ['#2ECC71', '#F1C40F', '#E74C3C'] # Vibrant Green, Yellow, Red
         sizes = [high_performers, medium_performers, low_performers]
+        labels = ['High', 'Mid', 'Low'] # Labels for the pie chart segments
         
         # Create pie chart with modern styling
         wedges, texts, autotexts = plt.pie(sizes, 
@@ -159,11 +155,11 @@ if employee_df is not None and target_df is not None:
             startangle=90,
             wedgeprops={
                 'edgecolor': 'none',
-                'alpha': 0.9
+                'alpha': 0.95 # Slightly increased alpha
             },
-            pctdistance=0.75,
-            textprops={'fontsize': 10, 'fontweight': 'bold'},
-            labels=None
+            pctdistance=0.85, # Adjusted pctdistance
+            textprops={'fontsize': 10, 'fontweight': 'bold', 'color': 'white'}, # Ensure text is visible
+            labels=None # We use a custom legend
         )
         
         plt.axis('equal')
@@ -220,6 +216,5 @@ if employee_df is not None and target_df is not None:
     # Add spacing after the chart section
     st.markdown("<div style='height: 2rem;'></div>", unsafe_allow_html=True)
 
- 
 else:
-    st.error("Unable to load data. Please check your Google Drive file IDs and ensure the files are accessible.")
+    st.error("Unable to load data. Please check your file paths and ensure the files (employee_data.xlsx, target_data.xlsx, agent_perf.csv) are accessible in the 'data' directory.")
