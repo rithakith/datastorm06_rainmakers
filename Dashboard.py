@@ -40,6 +40,8 @@ def load_data():
 st.set_page_config(page_title="ABC Company Dashboard", layout="wide")
 navbar()
 
+st.title("Dashboard") # Added title
+
 # Load data
 employee_df, target_df, agent_perf_df = load_data() # Unpack agent_perf_df
 
