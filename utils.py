@@ -19,8 +19,7 @@ def navbar():
     
     col1, col2 = st.columns([1, 4])
     
-    with col1:
-        # Load logo using absolute path from the current directory
+    with col1:        # Load logo using absolute path from the current directory
         current_dir = os.path.dirname(os.path.abspath(__file__))
         logo_path = os.path.join(current_dir, 'assets', 'logo.png')
         try:
@@ -71,3 +70,41 @@ def navbar():
             unsafe_allow_html=True
         )
     st.markdown("<hr style='margin: 0.5rem 0 1rem 0; border-color: rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
+
+def footer():    st.markdown(
+        """
+        <style>
+            footer {
+                margin-top: 10px;
+                padding: 10px 0;
+                background-color: rgba(38, 39, 48, 0.9);
+                border-top: 1px solid rgba(250, 250, 250, 0.1);
+                text-align: center;
+                color: rgba(250, 250, 250, 0.8);
+                font-size: 14px;
+                margin-left: -75px;  /* Remove left margin/padding from Streamlit */
+                margin-right: -75px; /* Remove right margin/padding from Streamlit */
+                width: calc(100% + 150px); /* Compensate for the negative margins */
+                margin-bottom: 0;
+            }
+            footer p {
+                margin: 0;
+            }
+            /* Remove bottom spacing from Streamlit containers */
+            .element-container:has(footer) {
+                margin-bottom: 0 !important;
+            }
+            .block-container {
+                padding-bottom: 0 !important;
+            }
+            /* Remove spacing after footer */
+            footer + * {
+                display: none !important;
+            }
+        </style>
+        <footer>
+            <p>Created by Team "RainMakers" &copy; 2025 | DataStorm 6.0 Competition</p>
+        </footer>
+        """,
+        unsafe_allow_html=True
+    )

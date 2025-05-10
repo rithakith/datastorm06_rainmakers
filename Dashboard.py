@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import navbar  # Changed from pages.utils to utils
+from utils import navbar, footer  # Changed from pages.utils to utils
 import pandas as pd
 import os
 import gdown
@@ -276,6 +276,12 @@ if employee_df is not None and target_df is not None and agent_perf_df is not No
 
     # Add spacing after the chart section
     st.markdown("<div style='height: 2rem;'></div>", unsafe_allow_html=True)
+    
+    # Add footer at the end of the page
+    footer()
 
 else:
     st.error("Unable to load data. Please check your file paths and ensure the files (employee_data.xlsx, target_data.xlsx, agent_perf.csv) are accessible in the 'data' directory.")
+    
+    # Add footer at the end of the page even if data loading fails
+    footer()

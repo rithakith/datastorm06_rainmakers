@@ -4,7 +4,7 @@ import sys
 import os
 # Add parent directory to path so we can import from root utils.py
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from utils import navbar
+from utils import navbar, footer
 from app import load_data, plot_new_policy_count, generate_agent_performance_chart
 
 # Load agent performance data including nill predictions
@@ -146,3 +146,6 @@ if employee_df is not None and target_df is not None:
                 st.dataframe(monthly_data, use_container_width=True)
 else:
     st.error("Unable to load data. Please check your Google Drive file IDs and ensure the files are accessible.")
+
+# Add footer at the end of the page
+footer()
