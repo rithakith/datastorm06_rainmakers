@@ -8,9 +8,12 @@ def navbar():
         <style>
             #MainMenu {visibility: hidden;}
             .css-1vq4p4l.e1fqkh3o4 {padding-top: 2rem;}
-            .st-emotion-cache-iiif1v.ef3psqc4 {display: none;}  /* Hide navigation in sidebar */
-            .css-h5rgaw.ef3psqc1 {display: none;}  /* Hide navigation in sidebar */
-            section[data-testid="stSidebar"] {display: none;}  /* Hide entire sidebar */
+            /* Uncomment the lines below if you want to hide the navigation sidebar */
+            /* 
+            .st-emotion-cache-iiif1v.ef3psqc4 {display: none;}  
+            .css-h5rgaw.ef3psqc1 {display: none;}
+            section[data-testid="stSidebar"] {display: none;}  
+            */
         </style>
     """, unsafe_allow_html=True)
     
@@ -32,15 +35,13 @@ def navbar():
                 align-items: center;
                 justify-content: flex-end;
                 height: 100%;
-                padding: 0.5rem 0;
-            ">
-                <div style="
+                padding: 0.5rem 0;            ">                <div style="
                     display: flex;
                     align-items: center;
                     gap: 2rem;
                     font-size: 16px;
                 ">
-                    <a href="Dashboard" style="
+                    <a href="/" style="
                         text-decoration: none;
                         color: white;
                         display: flex;
@@ -48,7 +49,7 @@ def navbar():
                         transition: opacity 0.2s;
                         font-weight: 500;
                     ">Dashboard</a>
-                    <a href="2_Nill_Agents" style="
+                    <a href="/2_Nill_Agents" style="
                         text-decoration: none;
                         color: white;
                         display: flex;
@@ -56,7 +57,7 @@ def navbar():
                         transition: opacity 0.2s;
                         font-weight: 500;
                     ">Nill Agents</a>
-                    <a href="3_Employees" style="
+                    <a href="/3_Employees" style="
                         text-decoration: none;
                         color: white;
                         display: flex;

@@ -1,6 +1,10 @@
 import streamlit as st
 import pandas as pd
-from pages.utils import navbar
+import sys
+import os
+# Add parent directory to path so we can import from root utils.py
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils import navbar
 from app import load_data, plot_new_policy_count, generate_agent_performance_chart, display_agent_info
 import matplotlib.pyplot as plt
 
