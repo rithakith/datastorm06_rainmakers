@@ -220,21 +220,6 @@ if employee_df is not None and target_df is not None:
     # Add spacing after the chart section
     st.markdown("<div style='height: 2rem;'></div>", unsafe_allow_html=True)
 
-    # Add navigation buttons
-    st.markdown("""
-        <div class="button-container">
-            <a href="pages/3_Employees.py" class="action-button">
-                👥 View More Employee Data
-            </a>
-            <a href="pages/2_Nill_Agents.py" class="action-button">
-                ⚠️ Go to Nill Agents
-            </a>
-        </div>
-    """, unsafe_allow_html=True)
-
-    # Nill Agent Count
-    nill_agents = len(target_df[target_df['target'] == 0])
-    st.markdown(f"<h3 style='text-align: center;'>Nill Agent Count: {nill_agents}</h3>", unsafe_allow_html=True)
-
+ 
 else:
     st.error("Unable to load data. Please check your Google Drive file IDs and ensure the files are accessible.")
