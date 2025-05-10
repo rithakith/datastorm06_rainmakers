@@ -146,14 +146,14 @@ if employee_df is not None and target_df is not None and agent_perf_df is not No
         wedges, texts, autotexts = plt.pie(
             sizes, 
             colors=colors,
-            autopct=lambda p: f'{int(p*sum(sizes)/100)}',  # Show actual counts
+            autopct=lambda p: f'{int(round(p*sum(sizes)/100.0))}',  # Show actual counts, with rounding
             pctdistance=0.75,
             shadow=False, 
             startangle=90,
             wedgeprops={
                 'width': 0.5,  # This creates the donut hole
                 'edgecolor': 'white',
-                'linewidth': 2,
+                'linewidth': 1,
                 'antialiased': True
             },
             textprops={
@@ -201,7 +201,7 @@ if employee_df is not None and target_df is not None and agent_perf_df is not No
                     height: 18px;
                     border-radius: 3px;
                 }}.legend-text {{
-                    font-size: 28px;
+                    font-size: 25px;
                     color: white;
                     font-weight: 500;
                 }}
