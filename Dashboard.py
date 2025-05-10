@@ -43,7 +43,8 @@ navbar()
 st.title("Dashboard") # Added title
 
 # Load data
-employee_df, target_df, agent_perf_df = load_data() # Unpack agent_perf_df
+with st.spinner('Loading data...'):
+    employee_df, target_df, agent_perf_df = load_data() # Unpack agent_perf_df
 
 if employee_df is not None and target_df is not None and agent_perf_df is not None: # Check agent_perf_df
     # Custom CSS for metrics container
@@ -191,8 +192,8 @@ if employee_df is not None and target_df is not None and agent_perf_df is not No
         )
         
         # Add a circle at the center to create a cleaner donut hole
-        centre_circle = plt.Circle((0, 0), 0.25, fc='none')
-        ax.add_patch(centre_circle)
+        # centre_circle = plt.Circle((0, 0), 0.25, fc='none')
+        # ax.add_patch(centre_circle)
           # Add total count in the center of the donut
         total = sum(sizes)
         ax.text(0, 0, f'{total}\nAGENTS', ha='center', va='center', fontsize=6, 
