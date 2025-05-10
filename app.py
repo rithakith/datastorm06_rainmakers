@@ -19,8 +19,8 @@ def load_data():
         os.makedirs(data_dir)
 
     # Google Drive file IDs for your Excel files
-    employee_file_id = 'YOUR_EMPLOYEE_DATA_FILE_ID'  # Replace with your file ID
-    target_file_id = 'YOUR_TARGET_DATA_FILE_ID'      # Replace with your file ID
+    employee_file_id = '1a_Ur5uP3X8sDCrW3nEP-3ycNvcbCwjKW'  # Replace with your file ID
+    target_file_id = '1qq6Vg2jak-eKiqJS-T6O7uiffF4dzInz'      # Replace with your file ID
 
     # Local file paths
     employee_excel = os.path.join(data_dir, "employee_data.xlsx")
@@ -323,64 +323,6 @@ def generate_agent_performance_chart(agent_code, df):
 
     return fig, monthly_data
 
-# --- Streamlit UI ---
-st.set_page_config(page_title="NILL Risk Dashboard", layout="wide")
-st.title("NILL Risk Action Plan Dashboard")
-
-train_df, nill_agent = load_data()
-agent_options = nill_agent[nill_agent['target'] == 0]['agent_code'].tolist()
-selected_agent = st.selectbox("Select an Agent at NILL Risk", agent_options)
-
-if st.button("Generate Action Plan"):
-    row = nill_agent[nill_agent['agent_code'] == selected_agent].iloc[0]
-    agent_profile_row = train_df[train_df['agent_code'] == selected_agent]
-
-    if agent_profile_row.empty:
-        st.warning(f"No profile data found for {selected_agent}.")
-    else:
-        agent_profile_data = agent_profile_row.iloc[0].to_dict()
-        plan = get_personalized_action_plan_system_binary_risk(selected_agent, agent_profile_data, row['target'])
-
-        with st.expander("View Action Plan", expanded=True):
-            for line in plan:
-                st.markdown(f"- {line}")
-
-        st.subheader("Agent Basic Information")
-        err, info_df = display_agent_info(train_df, selected_agent)
-        if err:
-            st.warning(err)
-        else:
-            st.dataframe(info_df.style.set_properties(**{'text-align': 'left'}), use_container_width=True)
-
-        # Add Monthly Performance Table to Basic Info
-        fig_perf, monthly_data = generate_agent_performance_chart(selected_agent, train_df)
-        with st.expander("Monthly Performance Data"):
-            if monthly_data is not None:
-                st.dataframe(monthly_data, use_container_width=True)
-
-        # Charts in smaller columns
-        col1, col2 = st.columns([1, 1])
-
-        with col1:
-            st.subheader("New Policy Count Trend")
-            fig2, policy_stats = plot_new_policy_count(selected_agent, train_df)
-            if fig2:
-                col_min, col_max = st.columns(2)
-                col_min.metric("Min Policy Count", policy_stats[0])
-                col_max.metric("Max Policy Count", policy_stats[1])
-                st.markdown('<div style="border:1px solid #ccc; padding:10px;">', unsafe_allow_html=True)
-                st.pyplot(fig2)
-                st.markdown('</div>', unsafe_allow_html=True)
-
-                
-            else:
-                st.warning(policy_stats)
-
-        with col2:
-            st.subheader("Monthly Performance Overview")
-            if fig_perf:
-                st.markdown('<div style="border:1px solid #ccc; padding:10px;">', unsafe_allow_html=True)
-                st.pyplot(fig_perf)
-                st.markdown('</div>', unsafe_allow_html=True)
-            else:
-                st.warning("No performance chart available.")
+# Only run the UI if this file is run directly
+if __name__ == "__main__":
+    print("This module contains helper functions. Please run Dashboard.py, Nill_Agents.py, or Employees.py instead.")

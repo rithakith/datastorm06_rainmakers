@@ -1,13 +1,30 @@
 import streamlit as st
 from pathlib import Path
+import os
 
 def navbar():
+    # Hide the default menu button and navigation in the sidebar
+    st.markdown("""
+        <style>
+            #MainMenu {visibility: hidden;}
+            .css-1vq4p4l.e1fqkh3o4 {padding-top: 2rem;}
+            .st-emotion-cache-iiif1v.ef3psqc4 {display: none;}  /* Hide navigation in sidebar */
+            .css-h5rgaw.ef3psqc1 {display: none;}  /* Hide navigation in sidebar */
+            section[data-testid="stSidebar"] {display: none;}  /* Hide entire sidebar */
+        </style>
+    """, unsafe_allow_html=True)
+    
     col1, col2 = st.columns([1, 4])
     
     with col1:
-        # Load logo using Streamlit's image display
-        logo_path = Path(__file__).parent.parent / "assets" / "logo.png"
-        st.image(str(logo_path), width=140)
+        # Load logo using absolute path, going up one level to find assets
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        parent_dir = os.path.dirname(current_dir)
+        logo_path = os.path.join(parent_dir, 'assets', 'logo.png')
+        try:
+            st.image(logo_path, width=140)
+        except Exception as e:
+            st.error(f"Unable to load logo: {str(e)}")
     
     with col2:
         st.markdown(
@@ -25,7 +42,7 @@ def navbar():
                     gap: 2rem;
                     font-size: 16px;
                 ">
-                    <a href="/Home" style="
+                    <a href="Dashboard" style="
                         text-decoration: none;
                         color: white;
                         display: flex;
@@ -33,7 +50,7 @@ def navbar():
                         transition: opacity 0.2s;
                         font-weight: 500;
                     ">Dashboard</a>
-                    <a href="/pages/2_Nill_Agents.py" style="
+                    <a href="2_Nill_Agents" style="
                         text-decoration: none;
                         color: white;
                         display: flex;
@@ -41,7 +58,7 @@ def navbar():
                         transition: opacity 0.2s;
                         font-weight: 500;
                     ">Nill Agents</a>
-                    <a href="/pages/3_Employees.py" style="
+                    <a href="3_Employees" style="
                         text-decoration: none;
                         color: white;
                         display: flex;
