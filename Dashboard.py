@@ -12,9 +12,22 @@ def load_data():
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
 
+    # Google Drive file IDs for your Excel files
+    employee_file_id = '1a_Ur5uP3X8sDCrW3nEP-3ycNvcbCwjKW'  # Replace with your file ID
+    target_file_id = '1qq6Vg2jak-eKiqJS-T6O7uiffF4dzInz'      # Replace with your file ID
+
     # Local file paths
     employee_excel = os.path.join(data_dir, "employee_data.xlsx")
     target_excel = os.path.join(data_dir, "target_data.xlsx")
+
+    # Download files if they don't exist
+    if not os.path.exists(employee_excel):
+        employee_url = f'https://drive.google.com/uc?id={employee_file_id}'
+        gdown.download(employee_url, employee_excel, quiet=False)
+
+    if not os.path.exists(target_excel):
+        target_url = f'https://drive.google.com/uc?id={target_file_id}'
+        gdown.download(target_url, target_excel, quiet=False)
 
     # Read Excel files
     try:
@@ -24,17 +37,19 @@ def load_data():
         # Convert date columns
         date_columns = ['agent_join_month', 'first_policy_sold_month', 'year_month']
         for col in date_columns:
-            employee_df[col] = pd.to_datetime(employee_df[col], errors='coerce') # Added errors='coerce'
-            if col in target_df.columns: # Added check if col exists
-                target_df[col] = pd.to_datetime(target_df[col], errors='coerce') # Added errors='coerce'
+            if col in employee_df.columns:
+                employee_df[col] = pd.to_datetime(employee_df[col])
 
-        return employee_df, target_df # Added return statement
+        return employee_df, target_df
     except Exception as e:
         st.error(f"Error loading data: {str(e)}")
-        return None, None # Added return statement
+        return None, None
 
 st.set_page_config(page_title="ABC Company Dashboard", layout="wide")
 navbar()
+
+# Center the main title
+st.markdown("<h1 style='text-align: center;'>ABC Company</h1>", unsafe_allow_html=True)
 
 # Load data
 employee_df, target_df = load_data()
@@ -128,12 +143,12 @@ if employee_df is not None and target_df is not None:
     
     with chart_col:
         # Modern Pie Chart with updated styling
-        fig, ax = plt.subplots(figsize=(2,2))
+        fig, ax = plt.subplots(figsize=(5, 5)) # Increased size
         fig.patch.set_alpha(0.0)
         ax.patch.set_alpha(0.0)
         
-        # Modern color palette
-        colors = ['#009ACD', '#ADD8E6', '#63D1F4', '#0EBFE9']
+        # Updated color palette
+        colors = ['#4CAF50', '#FFC107', '#F44336'] # Green, Amber, Red
         sizes = [high_performers, medium_performers, low_performers]
         
         # Create pie chart with modern styling
@@ -156,46 +171,46 @@ if employee_df is not None and target_df is not None:
     
     with legend_col:
         # Custom legend with colored squares
-        st.markdown("""
+        st.markdown(f"""
             <style>
-                .legend-wrapper {
+                .legend-wrapper {{
                     display: flex;
                     align-items: center;
                     min-height: 300px;
-                }
-                .legend-container {
+                }}
+                .legend-container {{
                     display: flex;
                     flex-direction: column;
                     gap: 20px;
                     width: 100%;
-                }
-                .legend-item {
+                }}
+                .legend-item {{
                     display: flex;
                     align-items: center;
                     gap: 12px;
-                }
-                .legend-box {
+                }}
+                .legend-box {{
                     width: 16px;
                     height: 16px;
                     border-radius: 3px;
-                }
-                .legend-text {
+                }}
+                .legend-text {{
                     font-size: 14px;
                     color: white;
-                }
+                }}
             </style>
             <div class="legend-wrapper">
                 <div class="legend-container">
                     <div class="legend-item">
-                        <div class="legend-box" style="background-color: #00BFB3;"></div>
+                        <div class="legend-box" style="background-color: {colors[0]};"></div>
                         <span class="legend-text">High Performance ({high_performers})</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-box" style="background-color: #FFC857;"></div>
+                        <div class="legend-box" style="background-color: {colors[1]};"></div>
                         <span class="legend-text">Medium Performance ({medium_performers})</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-box" style="background-color: #E63946;"></div>
+                        <div class="legend-box" style="background-color: {colors[2]};"></div>
                         <span class="legend-text">Low Performance ({low_performers})</span>
                     </div>
                 </div>

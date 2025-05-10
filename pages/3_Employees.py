@@ -91,6 +91,9 @@ if employee_df is not None and target_df is not None:
         col1, col2, col3 = st.columns(3)
         
         with col1:
+            st.markdown("**Employee Code:**")
+            st.write(selected_code)
+
             st.markdown("**Age:**")
             st.write(f"{int(agent_data['agent_age'])} years")
             
