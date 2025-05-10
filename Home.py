@@ -1,5 +1,5 @@
 import streamlit as st
-from pages.utils import navbar
+from utils import navbar
 
 st.set_page_config(page_title="ABC Company Dashboard", layout="wide")
 navbar()

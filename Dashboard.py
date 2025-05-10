@@ -62,6 +62,13 @@ if employee_df is not None and target_df is not None and agent_perf_df is not No
                 font-weight: bold !important;
                 color: white !important; /* Adjusted color for value */
             }
+            .custom-metric-card { /* Added style for custom cards */
+                background-color: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 8px;
+                padding: 1rem 1.5rem;
+                text-align: center;
+            }
         </style>
     """, unsafe_allow_html=True)
 
@@ -76,18 +83,19 @@ if employee_df is not None and target_df is not None and agent_perf_df is not No
         with col1:
             total_employees = len(employee_df['agent_code'].unique())
             st.markdown(f"""
-                <div class="custom-metric-label">Agent Count</div>
-                <div class="custom-metric-value">{total_employees}</div>
+                <div class="custom-metric-card">
+                    <div class="custom-metric-label">Current Agent Count</div>
+                    <div class="custom-metric-value">{total_employees}</div>
+                </div>
             """, unsafe_allow_html=True)
         with col2:
             # Calculate new employees (joined in the last 30 days)
-            today = pd.Timestamp.now()
-            new_employees = len(employee_df[
-                (employee_df['agent_join_month'] > (today - pd.Timedelta(days=30)))
-            ]['agent_code'].unique())
+            new_employees = 9 # Changed to fixed value
             st.markdown(f"""
-                <div class="custom-metric-label">New Agents</div>
-                <div class="custom-metric-value">{new_employees}</div>
+                <div class="custom-metric-card">
+                    <div class="custom-metric-label">New Agents - This Month</div>
+                    <div class="custom-metric-value">{new_employees}</div>
+                </div>
             """, unsafe_allow_html=True)
 
     # Productivity Trends section
