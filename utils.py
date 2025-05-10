@@ -71,7 +71,8 @@ def navbar():
         )
     st.markdown("<hr style='margin: 0.5rem 0 1rem 0; border-color: rgba(255,255,255,0.1);'>", unsafe_allow_html=True)
 
-def footer():    st.markdown(
+def footer():
+    st.markdown(
         """
         <style>
             footer {
@@ -89,6 +90,19 @@ def footer():    st.markdown(
             }
             footer p {
                 margin: 0;
+                padding: 0 15px; /* Add padding for small screens */
+                word-wrap: break-word; /* Ensure text wraps on small screens */
+            }
+            /* Responsive adjustments for mobile */
+            @media screen and (max-width: 640px) {
+                footer {
+                    margin-left: -20px; /* Smaller negative margin for mobile */
+                    margin-right: -20px;
+                    width: calc(100% + 40px);
+                }
+                footer p {
+                    font-size: 12px; /* Smaller font on mobile */
+                }
             }
             /* Remove bottom spacing from Streamlit containers */
             .element-container:has(footer) {
