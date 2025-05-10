@@ -73,7 +73,7 @@ if employee_df is not None and target_df is not None:
                 st.markdown(f"**Recommendation:**")
                 # Create a styled box for the recommendation
                 st.markdown(f"""
-                <div style="background-color:#f0f2f6;padding:10px;border-radius:5px;">
+                <div style="background-color:#000000;padding:10px;border-radius:5px;">
                 {recommendation}                </div>
                 """, unsafe_allow_html=True)
         else:

@@ -6,6 +6,7 @@ import gdown
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+@st.cache_data
 def load_data():
     # Create a data directory if it doesn't exist
     data_dir = "data"
@@ -38,9 +39,6 @@ def load_data():
 
 st.set_page_config(page_title="ABC Company Dashboard", layout="wide")
 navbar()
-
-# Center the main title
-st.markdown("<h1 style='text-align: center;'>ABC Company</h1>", unsafe_allow_html=True)
 
 # Load data
 employee_df, target_df, agent_perf_df = load_data() # Unpack agent_perf_df
