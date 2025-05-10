@@ -29,7 +29,7 @@ col1, col2 = st.columns([1, 1])
 with col1:
     st.metric("Agent Count", "150")
 with col2:
-    st.metric("New Employees", "5")
+    st.metric("New Agents", "5")
 st.markdown("</div></div></div>", unsafe_allow_html=True)
 
 # Replace style1 with centered subtitle

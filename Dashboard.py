@@ -128,39 +128,52 @@ if employee_df is not None and target_df is not None and agent_perf_df is not No
         st.warning("Column 'performance_group' not found in agent_perf.csv. Displaying zeros.")
         high_performers = 0
         medium_performers = 0
-        low_performers = 0
-
-    # Add spacing before the chart section
+        low_performers = 0    # Add spacing before the chart section
     st.markdown("<div style='height: 2rem;'></div>", unsafe_allow_html=True)
     
     # Create columns with equal width
     chart_col, spacer, legend_col = st.columns([1, 0.1, 1])
     
-    with chart_col:
-        # Modern Pie Chart with updated styling
-        fig, ax = plt.subplots(figsize=(5, 5)) # Increased size
+    with chart_col:        # Modern Donut Chart with enhanced styling
+        fig, ax = plt.subplots(figsize=(2, 2), facecolor='none') # Reduced size
         fig.patch.set_alpha(0.0)
         ax.patch.set_alpha(0.0)
         
-        # Updated color palette for better visibility
-        colors = ['#2ECC71', '#F1C40F', '#E74C3C'] # Vibrant Green, Yellow, Red
+        # Updated color palette with modern gradient-like colors
+        colors = ['#00C9A7', '#4361EE', '#FF6B6B'] # Teal, Blue, Coral - modern color palette
         sizes = [high_performers, medium_performers, low_performers]
-        labels = ['High', 'Mid', 'Low'] # Labels for the pie chart segments
+        labels = ['High', 'Mid', 'Low'] # Labels for the segments
         
-        # Create pie chart with modern styling
-        wedges, texts, autotexts = plt.pie(sizes, 
+        # Create donut chart with enhanced modern styling
+        wedges, texts, autotexts = plt.pie(
+            sizes, 
             colors=colors,
-            autopct='%1.0f%%',
+            autopct=lambda p: f'{int(p*sum(sizes)/100)}',  # Show actual counts
+            pctdistance=0.75,
             shadow=False, 
             startangle=90,
             wedgeprops={
-                'edgecolor': 'none',
-                'alpha': 0.95 # Slightly increased alpha
+                'width': 0.5,  # This creates the donut hole
+                'edgecolor': 'white',
+                'linewidth': 2,
+                'antialiased': True
             },
-            pctdistance=0.85, # Adjusted pctdistance
-            textprops={'fontsize': 10, 'fontweight': 'bold', 'color': 'white'}, # Ensure text is visible
+            textprops={
+                'fontsize': 6, 
+                'fontweight': 'bold', 
+                'color': 'white',
+                'fontname': 'Arial'
+            },
             labels=None # We use a custom legend
         )
+        
+        # Add a circle at the center to create a cleaner donut hole
+        centre_circle = plt.Circle((0, 0), 0.25, fc='none')
+        ax.add_patch(centre_circle)
+          # Add total count in the center of the donut
+        total = sum(sizes)
+        ax.text(0, 0, f'{total}\nAGENTS', ha='center', va='center', fontsize=6, 
+                fontweight='bold', fontname='Arial', color='white')
         
         plt.axis('equal')
         st.pyplot(fig)
@@ -179,20 +192,20 @@ if employee_df is not None and target_df is not None and agent_perf_df is not No
                     flex-direction: column;
                     gap: 20px;
                     width: 100%;
+                    margin-top: 10px;
                 }}
                 .legend-item {{
                     display: flex;
                     align-items: center;
                     gap: 12px;
-                }}
-                .legend-box {{
-                    width: 16px;
-                    height: 16px;
+                }}                .legend-box {{
+                    width: 18px;
+                    height: 18px;
                     border-radius: 3px;
-                }}
-                .legend-text {{
-                    font-size: 14px;
+                }}.legend-text {{
+                    font-size: 28px;
                     color: white;
+                    font-weight: 500;
                 }}
             </style>
             <div class="legend-wrapper">
