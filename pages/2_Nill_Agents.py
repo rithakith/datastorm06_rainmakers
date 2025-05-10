@@ -46,30 +46,41 @@ if employee_df is not None and target_df is not None:
             agent_data = employee_df[employee_df['agent_code'] == selected_agent].iloc[0]
             tenure_months = int((agent_data['year_month'] - agent_data['agent_join_month']).days / 30)
             
-            # Create two columns for agent information
-            left_col, right_col = st.columns(2)
-            with left_col:
-                st.markdown("**Agent Code:**")
-                st.write(selected_agent)
-                
-                st.markdown("**Age:**")
-                st.write(f"{int(agent_data['agent_age'])} years")
-                
-                st.markdown("**Join Date:**")
-                st.write(agent_data['agent_join_month'].strftime('%B %d, %Y'))
-            
-            with right_col:
-                st.markdown("**Tenure:**")
-                st.write(f"{tenure_months} months")
-                
-                st.markdown("**First Policy Sale:**")
-                if pd.notnull(agent_data['first_policy_sold_month']):
-                    st.write(agent_data['first_policy_sold_month'].strftime('%B %d, %Y'))
-                else:
-                    st.write("No policy sold yet")
-                
-                st.markdown("**Monthly Income:**")
-                st.write(f"${agent_data.get('monthly_income', 3000):,.2f}")
+            # Display agent details in a more structured way
+            st.subheader("Agent Details")
+            details_col1, details_col2 = st.columns(2)
+            with details_col1:
+                st.markdown(f"""
+                    <div style="margin-bottom: 10px;">
+                        <strong>Agent Code:</strong><br>
+                        {selected_agent}
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>Age:</strong><br>
+                        {int(agent_data['agent_age'])} years
+                    </div>
+                    <div>
+                        <strong>Join Date:</strong><br>
+                        {agent_data['agent_join_month'].strftime('%B %d, %Y')}
+                    </div>
+                """, unsafe_allow_html=True)
+            with details_col2:
+                st.markdown(f"""
+                    <div style="margin-bottom: 10px;">
+                        <strong>Tenure:</strong><br>
+                        {tenure_months} months
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>First Policy Sale:</strong><br>
+                        {agent_data['first_policy_sold_month'].strftime('%B %d, %Y') if pd.notnull(agent_data['first_policy_sold_month']) else 'No policy sold yet'}
+                    </div>
+                    <div>
+                        <strong>Monthly Income:</strong><br>
+                        ${agent_data.get('monthly_income', 3000):,.2f}
+                    </div>
+                """, unsafe_allow_html=True)
+
+            st.markdown("<hr>", unsafe_allow_html=True) # Add a horizontal rule for separation
 
         # Display metrics
         agent_data = employee_df[employee_df['agent_code'] == selected_agent]
