@@ -176,7 +176,7 @@ if employee_df is not None and target_df is not None and agent_perf_df is not No
             wedgeprops={
                 'width': 0.5,  # This creates the donut hole
                 'edgecolor': 'white',
-                'linewidth': 1,
+                'linewidth': 2,
                 'antialiased': True
             },
             textprops={
