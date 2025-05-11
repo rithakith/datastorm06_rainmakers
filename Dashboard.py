@@ -1,10 +1,11 @@
 import streamlit as st
-from utils import navbar  # Changed from pages.utils to utils
+from utils import navbar, footer  # Changed from pages.utils to utils
 import pandas as pd
 import os
 import gdown
 import matplotlib.pyplot as plt
 import seaborn as sns
+import time # Added import for time.sleep
 
 @st.cache_data
 def load_data():
@@ -38,7 +39,36 @@ def load_data():
         return None, None, None # Added None for agent_perf_df
 
 st.set_page_config(page_title="ABC Company Dashboard", layout="wide")
+
+# START SPLASH SCREEN
+splash_placeholder = st.empty()
+logo_path = "assets/logo.png"  # Relative path from Dashboard.py
+
+with splash_placeholder.container():
+    # CSS to hide the sidebar
+    st.markdown("""
+        <style>
+            section[data-testid="stSidebar"] {display: none;}
+        </style>
+    """, unsafe_allow_html=True)
+    
+    # Use columns for horizontal centering and add manual vertical spacing
+    st.markdown("<br>" * 8, unsafe_allow_html=True)  # Adjust for vertical positioning
+
+    s_col1, s_col2, s_col3 = st.columns([1, 1.5, 1])  # Middle column for content
+    with s_col2:
+        st.image(logo_path, width=250)  # Display logo
+        st.markdown("<h2 style='text-align: center;'>Loading Your Dashboard...</h2>", unsafe_allow_html=True)
+
+    st.markdown("<br>" * 8, unsafe_allow_html=True)  # Adjust for vertical positioning
+
+time.sleep(3)  # Display splash screen for 3 seconds
+splash_placeholder.empty()  # Clear the splash screen
+# END SPLASH SCREEN
+
 navbar()
+
+st.title("Dashboard") # Added title
 
 # Load data
 employee_df, target_df, agent_perf_df = load_data() # Unpack agent_perf_df
@@ -176,7 +206,7 @@ if employee_df is not None and target_df is not None and agent_perf_df is not No
             wedgeprops={
                 'width': 0.5,  # This creates the donut hole
                 'edgecolor': 'white',
-                'linewidth': 1,
+                'linewidth': 2,
                 'antialiased': True
             },
             textprops={
@@ -188,9 +218,6 @@ if employee_df is not None and target_df is not None and agent_perf_df is not No
             labels=None # We use a custom legend
         )
         
-        # Add a circle at the center to create a cleaner donut hole
-        # centre_circle = plt.Circle((0, 0), 0.25, fc='none')
-        # ax.add_patch(centre_circle)
           # Add total count in the center of the donut
         total = sum(sizes)
         ax.text(0, 0, f'{total}\nAGENTS', ha='center', va='center', fontsize=6, 
@@ -249,6 +276,12 @@ if employee_df is not None and target_df is not None and agent_perf_df is not No
 
     # Add spacing after the chart section
     st.markdown("<div style='height: 2rem;'></div>", unsafe_allow_html=True)
+    
+    # Add footer at the end of the page
+    footer()
 
 else:
     st.error("Unable to load data. Please check your file paths and ensure the files (employee_data.xlsx, target_data.xlsx, agent_perf.csv) are accessible in the 'data' directory.")
+    
+    # Add footer at the end of the page even if data loading fails
+    footer()

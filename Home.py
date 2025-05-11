@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import navbar
+from utils import navbar, footer
 
 st.set_page_config(page_title="ABC Company Dashboard", layout="wide")
 navbar()
@@ -47,3 +47,6 @@ st.markdown("<div style='text-align: center;'>[More ➕](pages/3_Employees.py)</
 
 st.markdown("<h3 style='text-align: center;'>Nill Agent Count: 15</h3>", unsafe_allow_html=True)
 st.markdown("<div style='text-align: center;'>[Go to Nill Agents ➡️](pages/2_Nill_Agents.py)</div>", unsafe_allow_html=True)
+
+# Add footer at the end of the page
+footer()
