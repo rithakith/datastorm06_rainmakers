@@ -27,13 +27,12 @@ if employee_df is not None and target_df is not None:
             f'<h3>Count: {nill_agents}</h3>'
             f'</div>',
             unsafe_allow_html=True
-        )
-
-    # Get list of nill agents
+        )    # Get list of nill agents
     nill_agent_codes = target_df[target_df['target'] == 0]['agent_code'].tolist()
-
-    # Only show the select box for Nill Agents
-    selected_agent = st.selectbox("Select Nill Agent", nill_agent_codes)
+    
+    # Set default index to 0 to show the first agent by default
+    default_index = 0 if nill_agent_codes else None
+    selected_agent = st.selectbox("Select Nill Agent", options=nill_agent_codes, index=default_index, placeholder="Choose a nill agent...")
 
     if selected_agent:
         # Display agent basic information

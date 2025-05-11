@@ -34,10 +34,8 @@ if employee_df is not None and target_df is not None:
     # Filter to only agents that exist in both datasets if agent_perf_df is available
     if agent_perf_df is not None:
         common_codes = set(employee_codes).intersection(set(agent_perf_df['agent_code'].unique().tolist()))
-        employee_codes = sorted(list(common_codes))
-
-    # Only show the select box for employees
-    selected_code = st.selectbox("Select Agent", employee_codes)
+        employee_codes = sorted(list(common_codes))    # Only show the select box for employees with a placeholder
+    selected_code = st.selectbox("Select Agent", options=employee_codes, index=None, placeholder="Choose an agent...")
     
     if selected_code:
         agent_data = employee_df[employee_df['agent_code'] == selected_code].iloc[0]
